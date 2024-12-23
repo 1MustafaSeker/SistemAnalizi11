@@ -1,0 +1,45 @@
+﻿@using EntityLayer
+@model IEnumerable<Operation>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h1>İşlemler</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ad</th>
+            <th>Minimum Fiyat</th>
+            <th>Maksimum Fiyat</th>
+            <th>Güncelle</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var operation in Model)
+        {
+            <tr>
+                <td>@operation.Id</td>
+                <td>@operation.Name</td>
+                <td>@operation.MinPrice</td>
+                <td>@operation.MaxPrice</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@operation.Id" class="btn btn-success ">Düzenle</a> 
+                    
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@operation.Id" class="btn btn-danger">Sil</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Yeni İşlem Ekle</a>
+

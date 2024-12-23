@@ -1,0 +1,53 @@
+﻿@model EntityLayer.WorkingHours
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="Edit" method="post" id="workingHoursForm">
+                <div class="form-group">
+                    <label for="Day">Gün</label>
+                    <select asp-for="Day" class="form-control" required>
+                        <option value="">Gün Seçin</option>
+                        @foreach (var day in DayOfWeekHelper.DayNames)
+                        {
+                            <option value="@day.Key">@day.Value</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Day" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="OpeningTime">Açılış Saati</label>
+                    <select asp-for="OpenTime" class="form-control" required>
+                        <option value="">Saat Seçin</option>
+                        @for (int hour = 0; hour < 24; hour++)
+                        {
+                            string hourFormatted = hour < 10 ? "0" + hour : hour.ToString();
+                            <option value="@hourFormatted:00">@hourFormatted:00</option>
+                        }
+                    </select>
+                    <span asp-validation-for="OpenTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="ClosingTime">Kapanış Saati</label>
+                    <select asp-for="CloseTime" class="form-control" required>
+                        <option value="">Saat Seçin</option>
+                        @for (int hour = 0; hour < 24; hour++)
+                        {
+                            string hourFormatted = hour < 10 ? "0" + hour : hour.ToString();
+                            <option value="@hourFormatted:00">@hourFormatted:00</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CloseTime" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="BarberShopId" />
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+                <a asp-action="Index" class="btn btn-secondary">İptal</a>
+            </form>
+        </div>
+    </div>
+</div>

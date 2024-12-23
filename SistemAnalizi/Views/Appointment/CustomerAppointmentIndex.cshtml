@@ -1,0 +1,94 @@
+@model IEnumerable<EntityLayer.Appointment>
+
+@{
+    ViewData["Title"] = "Randevularım";
+}
+
+<h2>Randevularım</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Saat</th>
+            <th>Berber Dükkanı</th>
+            <th>Hizmet</th>
+            <th>Durum</th>
+            <th>Fiyat</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr id="row-@appointment.Id">
+                <td>@(appointment.AppointmentDate?.ToShortDateString() ?? "-")</td>
+                <td>@appointment.AppointmentTime</td>
+                <td>@(appointment.BarberShop?.Name ?? "-")</td>
+                <td>@(appointment.BarberService?.Operation?.Name ?? "-")</td>
+                <td id="status-@appointment.Id">
+                    @{
+                        var statusText = appointment.Status switch
+                        {
+                            0 => "Beklemede",
+                            1 => "Tamamlandı",
+                            2 => "İptal",
+                            _ => "Bilinmiyor"
+                        };
+                    }
+                    @statusText
+                </td>
+                <td>@appointment.TotalPrice.ToString("C")</td>
+                <td>
+                    @if(appointment.Status == 0)
+                    {
+                        <button onclick="updateStatus(@appointment.Id, 1, @appointment.TotalPrice)" class="btn btn-success action-btn">Onayla</button>
+                        <button onclick="updateStatus(@appointment.Id, 2, @appointment.TotalPrice)" class="btn btn-danger action-btn">İptal</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function updateStatus(appointmentId, status, amount) {
+            // Disable buttons immediately
+            const buttons = document.querySelectorAll(`#row-${appointmentId} .action-btn`);
+            buttons.forEach(btn => btn.disabled = true);
+
+            $.ajax({
+                url: '@Url.Action("UpdateAppointmentStatus", "Appointment")',
+                type: 'POST',
+                data: {
+                    appointmentId: appointmentId,
+                    status: status,
+                    amount: amount
+                },
+                success: function (result) {
+                    if (result.success) {
+                        // Update status text
+                        const statusText = status === 1 ? "Tamamlandı" : "İptal";
+                        $(`#status-${appointmentId}`).text(statusText);
+                        
+                        // Remove buttons
+                        buttons.forEach(btn => btn.remove());
+                        
+                        // Show message
+                        alert(result.message);
+                    } else {
+                        alert(result.message);
+                        // Re-enable buttons if there was an error
+                        buttons.forEach(btn => btn.disabled = false);
+                    }
+                },
+                error: function () {
+                    alert('İşlem sırasında bir hata oluştu.');
+                    // Re-enable buttons if there was an error
+                    buttons.forEach(btn => btn.disabled = false);
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,41 @@
+﻿@model EntityLayer.BarberShop
+
+@{
+    ViewData["Title"] = "BarberShop Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="blog-details-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="blog-content">
+                    <h2>@Model.Name</h2>
+                    <p><strong>Phone:</strong> @Model.Phone</p>
+                    <p><strong>Address:</strong> @Model.Address</p>
+                    <p><strong>District:</strong> @Model.District</p>
+                    <p><strong>Type:</strong> @Model.Type</p>
+                </div>
+                <div class="services-section">
+                    <h3>Services</h3>
+                    <ul>
+                        @foreach (var service in Model.BarberServices)
+                        {
+                            <li>@service.Operation.Name - @service.Price TL</li>
+                        }
+                    </ul>
+                </div>
+                <div class="working-hours-section">
+                    <h3>Working Hours</h3>
+                    <ul>
+                        @foreach (var hours in Model.WorkingHours)
+                        {
+                            <li>@DayOfWeekHelper.GetDayName(hours.Day.Value): @hours.OpenTime.ToString("hh\\:mm") - @hours.CloseTime.ToString("hh\\:mm")</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

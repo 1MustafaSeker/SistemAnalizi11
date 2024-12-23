@@ -1,0 +1,32 @@
+@model RegisterCustomerViewModel
+
+<h2>Müşteri Kayıt</h2>
+
+<form asp-action="RegisterCustomer" method="post">
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">E-posta</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Şifre</label>
+        <input asp-for="Password" class="form-control" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Ad</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Surname" class="form-label">Soyad</label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CitizenshipNumber" class="form-label">TC Kimlik Numarası</label>
+        <input asp-for="CitizenshipNumber" class="form-control" />
+        <span asp-validation-for="CitizenshipNumber" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+</form>

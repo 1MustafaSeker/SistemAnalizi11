@@ -1,0 +1,52 @@
+﻿@model EntityLayer.WorkingHours
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" /> <!-- Gizli alan, mevcut ID'yi taşır -->
+
+        <div class="mb-3">
+            <label asp-for="BarberShopId" class="form-label">Berber Dükkanı</label>
+            <select asp-for="BarberShopId" asp-items="ViewBag.BarberShops" class="form-control">
+                <option value="">Seçiniz...</option>
+            </select>
+            <span asp-validation-for="BarberShopId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Day" class="form-label">Gün</label>
+            <select asp-for="Day" class="form-control">
+                <option value="">Seçiniz...</option>
+                <option value="Pazartesi">Pazartesi</option>
+                <option value="Salı">Salı</option>
+                <option value="Çarşamba">Çarşamba</option>
+                <option value="Perşembe">Perşembe</option>
+                <option value="Cuma">Cuma</option>
+                <option value="Cumartesi">Cumartesi</option>
+                <option value="Pazar">Pazar</option>
+            </select>
+            <span asp-validation-for="Day" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="OpenTime" class="form-label">Açılış Saati</label>
+            <input asp-for="OpenTime" class="form-control" type="time" />
+            <span asp-validation-for="OpenTime" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="OpenTime" class="form-label">Kapanış Saati</label>
+            <input asp-for="OpenTime" class="form-control" type="time" />
+            <span asp-validation-for="OpenTime" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
+

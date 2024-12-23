@@ -1,0 +1,44 @@
+﻿@model EntityLayer.WorkingHours
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+
+    <form asp-action="Create" method="post">
+       
+
+        <div class="mb-3">
+            <label asp-for="Day" class="form-label">Gün</label>
+            <select asp-for="Day" class="form-control">
+                <option value="">Seçiniz...</option>
+                <option value="Pazartesi">Pazartesi</option>
+                <option value="Salı">Salı</option>
+                <option value="Çarşamba">Çarşamba</option>
+                <option value="Perşembe">Perşembe</option>
+                <option value="Cuma">Cuma</option>
+                <option value="Cumartesi">Cumartesi</option>
+                <option value="Pazar">Pazar</option>
+            </select>
+            <span asp-validation-for="Day" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="OpenTime" class="form-label">Açılış Saati</label>
+            <input asp-for="OpenTime" class="form-control" type="time" value="08:00" /> <!-- Varsayılan değer 08:00 -->
+            <span asp-validation-for="OpenTime" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CloseTime" class="form-label">Kapanış Saati</label>
+            <input asp-for="CloseTime" class="form-control" type="time" value="20:00" /> <!-- Varsayılan değer 20:00 -->
+            <span asp-validation-for="CloseTime" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Ekle</button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
+

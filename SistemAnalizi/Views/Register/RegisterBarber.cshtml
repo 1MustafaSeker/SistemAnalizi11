@@ -1,0 +1,47 @@
+﻿@model RegisterBarberViewModel
+
+<h2>Berber Kayıt</h2>
+
+<form asp-action="RegisterBarber" method="post">
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">E-posta</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Şifre</label>
+        <input asp-for="Password" class="form-control" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Ad</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Surname" class="form-label">Soyad</label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CitizenshipNumber" class="form-label">TC Kimlik Numarası</label>
+        <input asp-for="CitizenshipNumber" class="form-control" />
+        <span asp-validation-for="CitizenshipNumber" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="BarberShopName" class="form-label">Berber Dükkanı Adı</label>
+        <input asp-for="BarberShopName" class="form-control" />
+        <span asp-validation-for="BarberShopName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label">Adres</label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PhoneNumber" class="form-label">Telefon Numarası</label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+</form>

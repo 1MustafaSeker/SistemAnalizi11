@@ -1,0 +1,25 @@
+﻿@model EntityLayer.Operation
+
+<h1>Yeni İşlem Ekle</h1>
+
+<form asp-action="Create" class="container mt-4">
+    <div class="mb-3">
+        <label class="form-label">Ad:</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Min Fiyat:</label>
+        <input asp-for="MinPrice" class="form-control" />
+        <span asp-validation-for="MinPrice" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Max Fiyat:</label>
+        <input asp-for="MaxPrice" class="form-control" />
+        <span asp-validation-for="MaxPrice" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Ekle</button>
+</form>

@@ -1,0 +1,78 @@
+@model IEnumerable<EntityLayer.Approval>
+
+@{
+    ViewData["Title"] = "Berber Onay İstekleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Berber Onay İstekleri</h2>
+    <hr />
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Berber Adı</th>
+                    <th>Email</th>
+                    <th>Dükkan Adı</th>
+                    <th>Telefon</th>
+                    <th>Adres</th>
+                    <th>Başvuru Tarihi</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr id="row_@item.Id">
+                        <td>@item.Name @item.Surname</td>
+                        <td>@item.Email</td>
+                        <td>@item.BarberShopName</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.Address</td>
+                        <td>@item.RequestDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <button onclick="approveBarber(@item.Id)" class="btn btn-success btn-sm">
+                                <i class="fas fa-check"></i> Onayla
+                            </button>
+                            <button onclick="rejectBarber(@item.Id)" class="btn btn-danger btn-sm">
+                                <i class="fas fa-times"></i> Reddet
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function approveBarber(id) {
+            if (confirm('Bu berberi onaylamak istediğinize emin misiniz?')) {
+                $.post('/Approval/Approve/' + id, function(response) {
+                    if (response.success) {
+                        $('#row_' + id).fadeOut();
+                        toastr.success('Berber başarıyla onaylandı.');
+                    } else {
+                        toastr.error('Onaylama işlemi sırasında bir hata oluştu.');
+                    }
+                });
+            }
+        }
+
+        function rejectBarber(id) {
+            if (confirm('Bu berberi reddetmek istediğinize emin misiniz?')) {
+                $.post('/Approval/Reject/' + id, function(response) {
+                    if (response.success) {
+                        $('#row_' + id).fadeOut();
+                        toastr.success('Berber başarıyla reddedildi.');
+                    } else {
+                        toastr.error('Reddetme işlemi sırasında bir hata oluştu.');
+                    }
+                });
+            }
+        }
+    </script>
+}

@@ -1,0 +1,132 @@
+﻿@using EntityLayer
+@model IEnumerable<BarberShop>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berber Dükkanları</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            margin: 20px;
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #343a40;
+        }
+        .card-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .btn-reserve {
+            background-color: black;
+            color: white;
+            border-radius: 20px;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+            border: none;
+        }
+        .btn-reserve:hover {
+            background-color: #333;
+        }
+        .btn-details {
+            background-color: #003366; /* Lacivert */
+            color: white;
+            border-radius: 20px;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+            border: none;
+            margin-left: 10px; /* Butonlar arasında boşluk */
+        }
+        .btn-details:hover {
+            background-color: #002244; /* Daha koyu lacivert */
+        }
+        .card-img-top {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center my-4">İşletmeler</h1>
+    
+    <div class="mb-3">
+        <label for="districtFilter" class="form-label">İlçeye Göre Filtrele:</label>
+        <select id="districtFilter" class="form-control" onchange="filterByDistrict()">
+            <option value="">Tüm İlçeler</option>
+            <option value="Pamukkale">Pamukkale</option>
+            <option value="Merkezefendi">Merkezefendi</option>
+            <option value="Acıpayam">Acıpayam</option>
+            <option value="Çivril">Çivril</option>
+            <option value="Tavas">Tavas</option>
+        </select>
+    </div>
+
+    <div class="row" id="barberShopList">
+        @foreach (var shop in Model)
+        {
+            <div class="col-md-4 barber-shop-item" data-district="@shop.District">
+                <div class="card shadow">
+                    <img src="@shop.Image" class="card-img-top" alt="@shop.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@shop.Name</h5>
+                        <p class="card-text"><strong>Adres:</strong> @shop.Address</p>
+                        <p class="card-text"><strong>Telefon:</strong> @shop.Phone</p>
+                        <p class="card-text"><strong>İlçe:</strong> @shop.District</p>
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="/BarberShop/Details/@shop.Id" class="btn btn-details">Detaylar</a>
+                            @if (User.IsInRole("Customer"))
+                            {
+                                <a href="@Url.Action("BookAppointment", "Appointment", new { id = shop.Id })" class="btn btn-details">Randevu</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function filterByDistrict() {
+        var selectedDistrict = document.getElementById("districtFilter").value;
+        var barberShopItems = document.querySelectorAll(".barber-shop-item");
+
+        barberShopItems.forEach(function (item) {
+            if (selectedDistrict === "" || item.getAttribute("data-district") === selectedDistrict) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+</script>
+</body>
+</html>
+

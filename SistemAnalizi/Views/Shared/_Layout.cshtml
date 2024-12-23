@@ -1,0 +1,137 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using EntityLayer
+@inject SignInManager<AppUser> SignInManager
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Sistem Analizi</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Sistem Analizi</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Operation" asp-action="Index">
+                                        <i class="fas fa-store"></i> İşlemler
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Approval" asp-action="Index">
+                                        <i class="fas fa-user-check"></i> İşletme Onayları
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="User" asp-action="Index">
+                                        <i class="fas fa-users"></i> Kullanıcılar
+                                    </a>
+                                </li>
+                            }
+                            @if (User.IsInRole("Barber"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="BarberService" asp-action="Index">
+                                        <i class="fas fa-store"></i> Hizmetlerim
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="WorkingHours" asp-action="Index">
+                                        <i class="fas fa-store"></i> Çalışma Planım
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Appointment" asp-action="BarberAppointmentIndex">
+                                        <i class="fas fa-calendar-check"></i> Randevular
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Transaction" asp-action="ListByBarberShop">
+                                        <i class="fas fa-file-invoice-dollar"></i> Döküm
+                                    </a>
+                                </li>
+                            }
+                            @if (User.IsInRole("Customer"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Transaction" asp-action="Index">
+                                        <i class="fas fa-money-check-alt"></i> Döküm
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Appointment" asp-action="CustomerAppointmentIndex">
+                                        <i class="fas fa-calendar-check"></i> Randevular
+                                    </a>
+                                </li>
+                            }
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="BarberShop" asp-action="Index">
+                                <i class="fas fa-store"></i> İşletmeler
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="d-flex me-3">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                                <button type="submit" class="btn btn-outline-primary me-2">
+                                    <i class="fas fa-sign-out-alt"></i> Çıkış
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-primary me-2" asp-area="" asp-controller="Account" asp-action="Login">
+                                <i class="fas fa-sign-in-alt"></i> Giriş
+                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="registerDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-plus"></i> Kayıt
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="registerDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="RegisterBarber">Berber Kayıt</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="RegisterCustomer">Müşteri Kayıt</a></li>
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">© 2024 Sistem Analizi</span>
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+

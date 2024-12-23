@@ -1,0 +1,34 @@
+﻿@model IEnumerable<EntityLayer.WorkingHours>
+
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+    <div class="mb-3">
+        
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+
+                <th>Gün</th>
+                <th>Açılış Saati</th>
+                <th>Kapanış Saati</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var workingHour in Model)
+            {
+                <tr>
+                    <td>@workingHour.Id</td>
+
+                    <td>@DayOfWeekHelper.GetDayName(workingHour.Day.Value)</td>
+                    <td>@workingHour.OpenTime.ToString("hh\\:mm")</td>
+                    <td>@workingHour.CloseTime.ToString("hh\\:mm")</td>
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

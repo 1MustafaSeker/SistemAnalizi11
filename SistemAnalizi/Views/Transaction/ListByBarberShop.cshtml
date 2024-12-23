@@ -1,0 +1,35 @@
+﻿@model IEnumerable<EntityLayer.Transaction>
+
+@{
+    ViewData["Title"] = "İşlemlerim (Berber Dükkanına Göre)";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Döküm</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Randevu Tarihi</th>
+            <th>Berber Dükkanı</th>
+            <th>Hizmet</th>
+            <th>Depozito Tutarı</th>
+            <th>Durum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.TransactionDate?.ToShortDateString()</td>
+                <td>@transaction.Appointment?.AppointmentDate?.ToShortDateString()</td>
+                <td>@transaction.Appointment?.BarberShop?.Name</td>
+                <td>@transaction.Appointment?.BarberService?.Operation?.Name</td>
+                <td>@transaction.Amount?.ToString("C")</td>
+                <td>@transaction.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

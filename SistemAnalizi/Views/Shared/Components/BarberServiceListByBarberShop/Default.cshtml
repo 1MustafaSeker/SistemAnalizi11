@@ -1,0 +1,33 @@
+﻿@model IEnumerable<EntityLayer.BarberService>
+
+
+<div class="container mt-4">
+   
+    <div class="mb-3">
+        
+    </div>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+
+                <th>İşlem Adı</th>
+                <th>Ücret</th>
+              
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var barberService in Model)
+            {
+                <tr>
+                    <td>@barberService.Id</td>
+                    <td>@barberService.Operation.Name</td>
+                    <td>@barberService.Price</td>
+                   
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

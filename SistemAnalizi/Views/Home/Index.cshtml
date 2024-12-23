@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Denizli Büyükşehir Belediyesi";
+}
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f8ff;
+    }
+    .jumbotron {
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .jumbotron h1 {
+        animation: fadeInDown 2s;
+    }
+    .jumbotron p {
+        animation: fadeInUp 2s;
+    }
+    keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .content-section {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+    .content-section:hover {
+        transform: translateY(-10px);
+    }
+    .content-section h2 {
+        color: #007bff;
+    }
+    .content-section p {
+        color: #333;
+    }
+    .content-section img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+    .stats-section {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .stats-section h3 {
+        color: #007bff;
+    }
+    .stats-section p {
+        font-size: 1.5rem;
+        color: #333;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Denizli Büyükşehir Belediyesi Kişisel Bakım Sistemi</h1>
+        <p class="lead">Denizli Büyükşehir Belediyesi hakkında bilgi edinin.</p>
+        <img src="~/images/denizli_buyuksehir_belediyesi_logo.jpg" alt="Denizli Büyükşehir Belediyesi Logo" class="img-fluid mb-3" style="max-width: 150px;">
+        
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="content-section">
+                <h2>Geliştirdiğimiz Yazılımın Amacı</h2>
+                <p>Bu yazılım, Denizli Büyükşehir Belediyesi'nin dijital dönüşüm sürecini hızlandırmak ve vatandaşlara daha iyi hizmet sunmak amacıyla geliştirilmiştir. Yazılım, kişisel bakım hizmetlerine kolay erişim sağlayıp hem işletme hem vatandaşlarımız adına güvenli bir ortam sağlamaktadır.</p>
+                <p>Ayrıca, kullanıcı dostu arayüzü sayesinde, bakım hizmetlerine erişim daha hızlı ve verimli hale gelmektedir. Akıllı algoritmalar sayesinde, ihtiyaçlar belirlenip, kişiye özel çözümler sunulmaktadır. Bu sayede vatandaşlarımıza kaliteli ve zamanında hizmet sağlanmaktadır.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="content-section">
+                <h2>Diğer Yazılım Çalışmaları</h2>
+                <p>Denizli Büyükşehir Belediyesi, yazılım alanında birçok yenilikçi projeye imza atmaktadır. Bu projeler arasında akıllı şehir uygulamaları, e-belediye hizmetleri ve mobil uygulamalar bulunmaktadır. Belediye, modern teknolojileri kullanarak vatandaşlara daha hızlı ve etkili hizmet sunmayı hedeflemektedir.</p>
+                <p>Belediye, ayrıca veri analitiği ve yapay zeka projeleri ile şehir yönetimini daha akıllı ve verimli hale getirmektedir. Bu projeler sayesinde, şehirdeki trafik akışı, enerji tüketimi ve çevre yönetimi gibi konularda önemli iyileştirmeler yapılmaktadır.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="stats-section">
+                <h3>Denizli Nüfusu</h3>
+                <p>1,027,782</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-section">
+                <h3>Erkek Kuaför</h3>
+                <p>350</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-section">
+                <h3>Kadın Kuaför</h3>
+                <p>420</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-section">
+                <h3>Güzellik Salonu</h3>
+                <p>150</p>
+            </div>
+        </div>
+    </div>
+</div>

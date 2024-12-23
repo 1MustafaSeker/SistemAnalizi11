@@ -1,0 +1,91 @@
+﻿@model EntityLayer.BarberService
+@{
+    ViewData["Title"] = "Yeni Hizmet Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @Html.ValidationSummary(false)
+        </div>
+    }
+
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="OperationId" class="form-label">Hizmet Kategorisi</label>
+            <select asp-for="OperationId" class="form-control" id="operationSelect">
+                <option value="">Seçiniz...</option>
+                @foreach (var operation in ViewBag.Operations)
+                {
+                    <option value="@operation.Id" data-min="@operation.MinPrice" data-max="@operation.MaxPrice">
+                        @operation.Name
+                    </option>
+                }
+            </select>
+            <span asp-validation-for="OperationId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label">Fiyat</label>
+            <input asp-for="Price" type="number" step="0.01" class="form-control" id="priceInput" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+            <small class="form-text text-muted" id="priceRange"></small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        const operationSelect = document.getElementById('operationSelect');
+        const priceInput = document.getElementById('priceInput');
+        const priceRange = document.getElementById('priceRange');
+        const priceValidation = document.querySelector('[asp-validation-for="Price"]');
+
+        operationSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption.value) {
+                const minPrice = selectedOption.dataset.min;
+                const maxPrice = selectedOption.dataset.max;
+                priceRange.textContent = `Fiyat aralığı: ${minPrice} TL - ${maxPrice} TL`;
+                priceInput.min = minPrice;
+                priceInput.max = maxPrice;
+                validatePrice();
+            } else {
+                priceRange.textContent = '';
+                priceInput.removeAttribute('min');
+                priceInput.removeAttribute('max');
+            }
+        });
+
+        priceInput.addEventListener('input', validatePrice);
+
+        function validatePrice() {
+            const selectedOption = operationSelect.options[operationSelect.selectedIndex];
+            if (selectedOption.value) {
+                const price = parseFloat(priceInput.value);
+                const minPrice = parseFloat(selectedOption.dataset.min);
+                const maxPrice = parseFloat(selectedOption.dataset.max);
+
+                if (price < minPrice || price > maxPrice) {
+                    priceValidation.textContent = `Fiyat ${minPrice} TL ile ${maxPrice} TL arasında olmalıdır.`;
+                    priceInput.setCustomValidity('Invalid');
+                } else {
+                    priceValidation.textContent = '';
+                    priceInput.setCustomValidity('');
+                }
+            }
+        }
+
+        // Initial validation if there's a selected operation
+        if (operationSelect.value) {
+            validatePrice();
+        }
+    </script>
+}

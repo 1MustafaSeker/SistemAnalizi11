@@ -1,0 +1,42 @@
+@model IEnumerable<EntityLayer.Appointment>
+
+@{
+    ViewData["Title"] = "Randevular";
+}
+
+<h2>Randevular</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Saat</th>
+            <th>Müşteri</th>
+            <th>Hizmet</th>
+            <th>Durum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@(appointment.AppointmentDate?.ToShortDateString() ?? "No date")</td>
+                <td>@appointment.AppointmentTime</td>
+                <td>@(appointment.User != null ? $"{appointment.User.Name} {appointment.User.Surname}" : "No user")</td>
+                <td>@Html.Raw(appointment.BarberService?.Operation?.Name ?? "No service")</td>
+                <td>
+                    @{
+                        var statusText = appointment.Status switch
+                        {
+                            0 => "Beklemede",
+                            1 => "Tamamlandı",
+                            2 => "İptal",
+                            _ => "Bilinmiyor"
+                        };
+                    }
+                    @statusText
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

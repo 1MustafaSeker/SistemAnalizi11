@@ -1,0 +1,92 @@
+﻿@model EntityLayer.BarberService
+@{
+    ViewData["Title"] = "Hizmet Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @Html.ValidationSummary(false)
+        </div>
+    }
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        
+        @* Required alanları hidden olarak ekle *@
+        <input type="hidden" asp-for="BarberShopId" />
+        <input type="hidden" asp-for="OperationId" />
+
+        <div class="mb-3">
+            <label class="form-label">Hizmet Kategorisi</label>
+            <select class="form-control" disabled>
+                @foreach (var operation in ViewBag.Operations)
+                {
+                    <option value="@operation.Id" 
+                            data-min="@operation.MinPrice" 
+                            data-max="@operation.MaxPrice"
+                            selected="@(operation.Id == Model.OperationId)">
+                        @operation.Name
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label">Fiyat</label>
+            <input asp-for="Price" type="number" step="0.01" class="form-control" id="priceInput" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+            <small class="form-text text-muted" id="priceRange"></small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        const operationSelect = document.getElementById('operationSelect');
+        const priceInput = document.getElementById('priceInput');
+        const priceRange = document.getElementById('priceRange');
+        const priceValidation = document.querySelector('[asp-validation-for="Price"]');
+
+        function validatePrice() {
+            const selectedOption = operationSelect.options[operationSelect.selectedIndex];
+            if (selectedOption) {
+                const price = parseFloat(priceInput.value);
+                const minPrice = parseFloat(selectedOption.dataset.min);
+                const maxPrice = parseFloat(selectedOption.dataset.max);
+
+                if (price < minPrice || price > maxPrice) {
+                    priceValidation.textContent = `Fiyat ${minPrice} TL ile ${maxPrice} TL arasında olmalıdır.`;
+                    priceInput.setCustomValidity('Invalid');
+                } else {
+                    priceValidation.textContent = '';
+                    priceInput.setCustomValidity('');
+                }
+            }
+        }
+
+        function updatePriceRange() {
+            const selectedOption = operationSelect.options[operationSelect.selectedIndex];
+            if (selectedOption) {
+                const minPrice = selectedOption.dataset.min;
+                const maxPrice = selectedOption.dataset.max;
+                priceRange.textContent = `Fiyat aralığı: ${minPrice} TL - ${maxPrice} TL`;
+                priceInput.min = minPrice;
+                priceInput.max = maxPrice;
+                validatePrice();
+            }
+        }
+
+        priceInput.addEventListener('input', validatePrice);
+        
+        // Initial setup
+        updatePriceRange();
+    </script>
+}
